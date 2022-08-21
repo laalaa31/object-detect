@@ -4,4 +4,5 @@
 🌊yolov5(or v4)와 colab 기반의 코드 공부 및 구현 중🌊
 <br>
 ## references
-- cplab-yolov4-webcam: https://github.com/theAIGuysCode/YOLOv4-Cloud-Tutorial
+- colab-yolov4-webcam: https://github.com/theAIGuysCode/YOLOv4-Cloud-Tutorial
+- Measuring the distance between a face and a webcam: https://github.com/Asadullah-Dal17/Distance_measurement_using_single_camera   
