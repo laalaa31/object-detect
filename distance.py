@@ -16,8 +16,9 @@ KNOWN_WIDTH = 15  # centimeter
 GREEN = (0, 255, 0)
 RED = (0, 0, 255)
 WHITE = (255, 255, 255)
+BLACK=(0,0,0)
 fonts = cv2.FONT_HERSHEY_COMPLEX
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 # face detector object
 face_detector = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml')
@@ -32,7 +33,9 @@ def focal_length(measured_distance, real_width, width_in_rf_image):
 
     :param2 Real_Width(int): It is Actual width of object, in real world (like My face width is = 14.3 centimeters)
     :param3 Width_In_Image(int): It is object width in the frame /image in our case in the reference image(found by Face detector)
-    :retrun focal_length(Float):"""
+    :retrun focal_length(Float):
+    초점거리 = (카메라에서 피사체까지의 거리 / 피사체의 대각 길이) x 센서대각길이
+    """
     focal_length_value = (width_in_rf_image * measured_distance) / real_width
     return focal_length_value
 
@@ -57,6 +60,7 @@ def face_data(image):
     This function Detect the face
     :param Takes image as argument.
     :returns face_width in the pixels
+    중점= (x+w/2, y+h/2)
     """
 
     face_width = 0
@@ -76,7 +80,6 @@ focal_length_found = focal_length(KNOWN_DISTANCE, KNOWN_WIDTH, ref_image_face_wi
 print(focal_length_found)
 cv2.imshow("ref_image", ref_image)
 
-cap = cv2.VideoCapture(0)
 while True:
     _, frame = cap.read()
 
@@ -87,7 +90,7 @@ while True:
         Distance = distance_finder(focal_length_found, KNOWN_WIDTH, face_width_in_frame)
         # Drwaing Text on the screen
         cv2.putText(
-            frame, f"Distance = {round(Distance,2)} CM", (50, 50), fonts, 1, (WHITE), 2
+            frame, f"Distance = {round(Distance,2)} CM", (50, 50), fonts, 1, (BLACK), 2
         )
     cv2.imshow("frame", frame)
     if cv2.waitKey(1) == ord("q"):
