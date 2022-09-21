@@ -4,7 +4,7 @@ import cv2
 
 """
 원본 동영상 크기 정보 640 픽셀*480픽셀 4:3
-카메라에서 52cm 떨어진 상태 가정
+카메라에서 108.5cm 떨어진 상태 가정
 """
 # 화면 상 비디오 넓이 및 높이(픽셀단위)
 VIDEO_WIDTH_PIXEL=640
@@ -15,11 +15,12 @@ VIDEO_WIDTH=14.5
 VIDEO_HIGHT=10.5
 
 # 52cm 떨어진 곳의 실세계 넓이 및 높이
-REAL_WIDTH=52
-REAL_HIGHT=43
+REAL_WIDTH=107
+REAL_HIGHT=80
 
 #px to cm
-PX_TO_CM=0.02645
+PX_TO_CM_WIDTH=VIDEO_WIDTH/VIDEO_WIDTH_PIXEL
+PX_TO_CM_HEIGHT=VIDEO_HIGHT/VIDEO_HIGHT_PIXEL
 
 # 색상 및 폰트
 GREEN = (0, 255, 0)
@@ -28,6 +29,8 @@ fonts = cv2.FONT_HERSHEY_COMPLEX
 
 # 비디오 캡쳐
 cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 # 얼굴 탐지
 face_detector = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml')
@@ -75,8 +78,8 @@ def coordinate_finder(image):
         zc=zc*(REAL_HIGHT/VIDEO_HIGHT)
 
         #픽셀->cm 변환
-        y_result=yc*PX_TO_CM
-        z_result=zc*PX_TO_CM
+        y_result=yc*PX_TO_CM_WIDTH
+        z_result=zc*PX_TO_CM_HEIGHT
 
 
     return (round(y_result,2),round(z_result,2))
