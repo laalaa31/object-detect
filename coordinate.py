@@ -32,7 +32,7 @@ cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
-# 얼굴 탐지
+# 얼굴 탐지(현재는 새 탐지 코드와 연동 전 상태로 얼굴 탐지 데이터셋을 활용해 테스트 중)
 face_detector = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml')
 
 # 화면의 중점을 (0,0)으로 만드는 함수
