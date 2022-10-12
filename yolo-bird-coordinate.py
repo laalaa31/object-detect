@@ -311,7 +311,7 @@ while True:
       width=right-left
       y,z=coordinate_finder(left,top,height, width)
       bbox_array = cv2.rectangle(bbox_array, (left, top), (right, bottom), class_colors[label], 2)
-      bbox_array = cv2.putText(bbox_array, "{} [{:.2f}]".format(label, float(confidence)),
+      bbox_array = cv2.putText(bbox_array, "{} [{:.2f}] ({},{})cm".format(label, float(confidence), y,z),
                         (left, top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                         class_colors[label], 2)
 
