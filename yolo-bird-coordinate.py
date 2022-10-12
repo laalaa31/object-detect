@@ -41,6 +41,62 @@ def darknet_helper(img, width, height):
   free_image(darknet_image)
   return detections, width_ratio, height_ratio
 
+# 좌표 관련 정의 및 함수
+"""
+원본 동영상 크기 정보 640 픽셀*480픽셀 4:3
+카메라에서 108.5cm 떨어진 상태 가정
+"""
+# 화면 상 비디오 넓이 및 높이(픽셀단위)
+VIDEO_WIDTH_PIXEL=640
+VIDEO_HIGHT_PIXEL=480
+
+# 화면 상 비디오 넓이 및 높이(cm단위)
+VIDEO_WIDTH=14.8
+VIDEO_HIGHT=11
+
+# 52cm 떨어진 곳의 실세계 넓이 및 높이
+REAL_WIDTH=107#32#107
+REAL_HIGHT=80#22#80
+
+#px to cm
+PX_TO_CM_WIDTH=VIDEO_WIDTH/VIDEO_WIDTH_PIXEL
+PX_TO_CM_HEIGHT=VIDEO_HIGHT/VIDEO_HIGHT_PIXEL
+
+# 화면의 중점을 (0,0)으로 만드는 함수
+def change_midpoint(y,z):
+    y=y-VIDEO_WIDTH_PIXEL/2
+    z=VIDEO_HIGHT_PIXEL/2-z
+    
+    return (y,z)
+
+# 탐지된 새의 중점 좌표 실세계 cm로 반환
+def coordinate_finder(x,y,h,w):
+    yc=0
+    zc=0
+    y_result=0
+    z_result=0
+    """
+    중점= (x+w/2, y+h/2)
+    """
+    
+    #화면상의 좌표 그대로 출력
+    yc=x+w/2
+    zc=y+h/2
+
+    #기준점(원점)을 화면의 중점으로 변환
+    yc,zc=change_midpoint(yc,zc)
+
+    #실세계 좌표로 변환
+    yc=yc*(REAL_WIDTH/VIDEO_WIDTH)
+    zc=zc*(REAL_HIGHT/VIDEO_HIGHT)
+
+    #픽셀->cm 변환
+    y_result=yc*PX_TO_CM_WIDTH
+    z_result=zc*PX_TO_CM_HEIGHT
+
+
+    return (round(y_result,2),round(z_result,2))
+
 # function to convert the JavaScript object into an OpenCV image
 def js_to_image(js_reply):
   """
