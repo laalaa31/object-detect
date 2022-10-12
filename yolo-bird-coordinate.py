@@ -1,5 +1,6 @@
 #colab 환경에서 웹캠(외장, 내장 선택 가능) 사용해 yolov4 실시간 객체 탐지
 #yolov4_webcam.ipynb (https://github.com/theAIGuysCode/YOLOv4-Cloud-Tutorial/blob/master/yolov4_webcam.ipynb) 참조해 웹캠 연동 부분 수정
+# 새 탐지-좌표 추출 연동(좌표는 특정 거리일 때로 가정)
 
 # import dependencies
 from IPython.display import display, Javascript, Image
@@ -306,6 +307,9 @@ while True:
     for label, confidence, bbox in detections:
       left, top, right, bottom = bbox2points(bbox)
       left, top, right, bottom = int(left * width_ratio), int(top * height_ratio), int(right * width_ratio), int(bottom * height_ratio)
+      height= bottom-top
+      width=right-left
+      y,z=coordinate_finder(left,top,height, width)
       bbox_array = cv2.rectangle(bbox_array, (left, top), (right, bottom), class_colors[label], 2)
       bbox_array = cv2.putText(bbox_array, "{} [{:.2f}]".format(label, float(confidence)),
                         (left, top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
